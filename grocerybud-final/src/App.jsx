@@ -17,6 +17,9 @@ function App() {
     setList([...list, newItem]);
     setItem('');    
   };
+  const clearList = () => {
+    setList([]);
+  };
   useEffect(() => {
     localStorage.setItem('list', JSON.stringify(list));
   }, [list]);
@@ -40,7 +43,10 @@ function App() {
       </form>
       {list.length > 0 && (
         <div className='grocery-container'>
-          <List items={list} />          
+          <List items={list} />
+          <button className='clear-btn' onClick={clearList}>
+            clear items
+          </button>         
         </div>
       )}       
     </section>    
