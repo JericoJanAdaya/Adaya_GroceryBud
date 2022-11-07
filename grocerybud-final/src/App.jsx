@@ -11,19 +11,47 @@ const getLocalStorage = () => {
 function App() {
   const [item, setItem] = useState('');
   const [list, setList] = useState(getLocalStorage());
+  const [isEditing, setIsEditing] = useState(false);
+  const [editID, setEditID] = useState(null);
   const grocerySubmit = (e) => {
     e.preventDefault();
     if (!item) {
-      alert('Please enter value');
+      alert('Please enter item');
+    }
+    else if (item && isEditing) {
+      setList(
+        list.map((itemName) => {
+          if (itemName.id === editID) {
+            return { ...itemName, title: item };
+          }
+          return itemName;
+        })
+      );
+      setItem('');
+      setEditID(null);
+      setIsEditing(false);
+      alert('Item changed');
     }
     else {
+      alert('Item added');
       const newItem = { id: new Date().getTime().toString(), title: item };
       setList([...list, newItem]);
       setItem('');
     }        
   };
   const clearList = () => {
+    alert('List empty')
     setList([]);
+  };
+  const removeItem = (id) => {
+    alert('Item removed');
+    setList(list.filter((item) => item.id !== id));
+  };
+  const editItem = (id) => {
+    const specificItem = list.find((item) => item.id === id);
+    setIsEditing(true);
+    setEditID(id);
+    setItem(specificItem.title);
   };
   useEffect(() => {
     localStorage.setItem('list', JSON.stringify(list));
@@ -42,13 +70,13 @@ function App() {
             onChange={(e) => setItem(e.target.value)}
           />
           <button type='submit' className='submit-btn'>
-            submit
+            {isEditing ? 'edit' : 'submit'}
           </button>
         </div>
       </form>
       {list.length > 0 && (
         <div className='grocery-container'>
-          <List items={list} />
+          <List items={list} removeItem={removeItem} editItem={editItem} />
           <button className='clear-btn' onClick={clearList}>
             clear items
           </button>         
