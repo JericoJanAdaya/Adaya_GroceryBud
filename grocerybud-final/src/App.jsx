@@ -13,9 +13,14 @@ function App() {
   const [list, setList] = useState(getLocalStorage());
   const grocerySubmit = (e) => {
     e.preventDefault();
-    const newItem = { id: new Date().getTime().toString(), title: item };
-    setList([...list, newItem]);
-    setItem('');    
+    if (!item) {
+      alert('Please enter value');
+    }
+    else {
+      const newItem = { id: new Date().getTime().toString(), title: item };
+      setList([...list, newItem]);
+      setItem('');
+    }        
   };
   const clearList = () => {
     setList([]);
