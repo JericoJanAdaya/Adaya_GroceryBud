@@ -32,6 +32,7 @@ Variables
   --clr-grey-10: hsl(210, 36%, 96%);
   --clr-white: #fff;
   --clr-gold: #c59d5f;
+  --clr-gold-1: #9A7237;
   --clr-red-dark: hsl(360, 67%, 44%);
   --clr-red-light: hsl(360, 71%, 66%);
   --clr-green-dark: hsl(125, 67%, 44%);
@@ -195,11 +196,11 @@ Grocery List
   letter-spacing: var(--spacing);
   text-transform: capitalize;
 }
-.alert-danger {
+.alert-warning {
   color: #721c24;
   background: #f8d7da;
 }
-.alert-success {
+.alert-confirm {
   color: #155724;
   background: #d4edda;
 }
@@ -228,7 +229,7 @@ Grocery List
   color: var(--clr-grey-5);
 }
 .submit-btn {
-  background: var(--clr-primary-8);
+  background: var(--clr-gold);
   border-color: transparent;
   flex: 0 0 5rem;
   display: grid;
@@ -244,7 +245,7 @@ Grocery List
   font-size: 0.85rem;
 }
 .submit-btn:hover {
-  background: var(--clr-primary-5);
+  background: var(--clr-gold-1);
   color: var(--clr-white);
 }
 
@@ -267,11 +268,11 @@ Grocery List
   background: var(--clr-grey-10);
 }
 .grocery-item:hover .title {
-  color: var(--clr-grey-5);
+  color: var(--clr-gold);
 }
 .title {
   margin-bottom: 0;
-  color: var(--clr-grey-1);
+  color: var(--clr-gold);
   letter-spacing: 2px;
   transition: var(--transition);
 }

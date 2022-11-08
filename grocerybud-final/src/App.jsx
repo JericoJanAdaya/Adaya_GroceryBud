@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import List from './List';
+import Alert from './Alert'
 const getLocalStorage = () => {
   let list = localStorage.getItem('list');
   if (list) {
@@ -13,10 +14,11 @@ function App() {
   const [list, setList] = useState(getLocalStorage());
   const [isEditing, setIsEditing] = useState(false);
   const [editID, setEditID] = useState(null);
+  const [alert, setAlert] = useState({ show: false, msg: '', type: '' });
   const grocerySubmit = (e) => {
     e.preventDefault();
     if (!item) {
-      alert('Please enter item');
+      showAlert(true, 'warning', 'please enter item');
     }
     else if (item && isEditing) {
       setList(
@@ -30,21 +32,25 @@ function App() {
       setItem('');
       setEditID(null);
       setIsEditing(false);
-      alert('Item changed');
+      showAlert(true, 'confirm', 'item changed');
     }
     else {
-      alert('Item added');
+      showAlert(true, 'confirm', 'item added');
       const newItem = { id: new Date().getTime().toString(), title: item };
       setList([...list, newItem]);
       setItem('');
     }        
   };
+
+  useEffect(() => {
+    localStorage.setItem('list', JSON.stringify(list));
+  }, [list]);
   const clearList = () => {
-    alert('List empty')
+    showAlert(true, 'warning', 'list empty');
     setList([]);
   };
   const removeItem = (id) => {
-    alert('Item removed');
+    showAlert(true, 'warning', 'item removed');
     setList(list.filter((item) => item.id !== id));
   };
   const editItem = (id) => {
@@ -53,14 +59,15 @@ function App() {
     setEditID(id);
     setItem(specificItem.title);
   };
-  useEffect(() => {
-    localStorage.setItem('list', JSON.stringify(list));
-  }, [list]);
+  const showAlert = (show = false, type = '', msg = '') => {
+    setAlert({ show, type, msg });
+  };
   return (
-    <section className='section-center'>
+    <section className='section-center'> 
       <h3>grocery bud</h3>
-      <div className='underline'></div>
+      <div className='underline'></div>     
       <form className='grocery-form' onSubmit={grocerySubmit}>
+        {alert.show && <Alert {...alert} removeAlert={showAlert} list={list} />}        
         <div className='form-control'>
           <input
             type='text'
